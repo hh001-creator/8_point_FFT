@@ -86,16 +86,49 @@ module fft(
     wire signed [15:0] y_s1_r[7:0];
     wire signed [15:0] y_s1_i[7:0];
     for(genvar i = 0;i < 8;i = i + 2) begin
-        if(i != 2 || i != 6) begin
+        
             butterfly U(.x1_r(input_real[i]), .x1_i(input_imag[i]), .x2_r(input_real[i + 1]), .x2_i(input_imag[i + 1]),
             .w_r(w_r[0]), .w_i(w_i[0]), .clk(clk), .start(start), .y1_r(y_s1_r[i]), .y1_i(y_s1_i[i]), .y2_r(y_s1_r[i + 1]), .y2_i(y_s1_i[i + 1]));
-        end
-        else begin
-            butterfly U(.x1_r(input_real[i]), .x1_i(input_imag[i]), .x2_r(input_real[i + 1]), .x2_i(input_imag[i + 1]),
-            .w_r(w_r[2]), .w_i(w_i[2]), .clk(clk), .start(start), .y1_r(y_s1_r[i]), .y1_i(y_s1_i[i]), .y2_r(y_s1_r[i + 1]), .y2_i(y_s1_i[i + 1]));
-        end
+        
     end
     //stage 2
     wire signed [15:0] y_s2_r[7:0];
     wire signed [15:0] y_s2_i[7:0];
+    for(genvar i=0;i < 4;i = i+1) begin
+        if(i % 2 == 0)begin
+            butterfly U(.x1_r(y_s1_r[2*i]), .x1_i(y_s1_i[2*i]), .x2_r(y_s1_r[2*(i + 1)]), .x2_i(y_s1_i[2*(i + 1)]),
+            .w_r(w_r[0]), .w_i(w_i[0]), .clk(clk), .start(start), .y1_r(y_s2_r[2*i]), .y1_i(y_s2_i[2*i]), .y2_r(y_s2_r[2*(i + 1)]), .y2_i(y_s2_i[2*(i + 1)]));
+
+        end
+        else begin
+            butterfly U(.x1_r(y_s1_r[2*i-1]), .x1_i(y_s1_i[2*i-1]), .x2_r(y_s1_r[2*(i)+ 1]), .x2_i(y_s1_i[2*(i) + 1]),
+            .w_r(w_r[2]), .w_i(w_i[2]), .clk(clk), .start(start), .y1_r(y_s2_r[2*i-1]), .y1_i(y_s2_i[2*i-1]), .y2_r(y_s2_r[2*(i) + 1]), .y2_i(y_s2_i[2*(i) + 1]));
+
+
+        end
+    end
+    //stage 3
+    wire signed [15:0] y_s3_r[7:0];
+    wire signed [15:0] y_s3_i[7:0];
+
+    for(genvar i=0;i<4;i=i+1) begin
+        butterfly U(.x1_r(input_real[i]), .x1_i(input_imag[i]), .x2_r(input_real[i + 4]), .x2_i(input_imag[i + 4]),
+            .w_r(w_r[i]), .w_i(w_i[1]), .clk(clk), .start(start), .y1_r(y_s3_r[i]), .y1_i(y_s3_i[i]), .y2_r(y_s3_r[i + 4]), .y2_i(y_s3_i[i + 4]));
+    end
+    assign output0_real=y_s3_r[0];
+    assign output0_imag=y_s3_i[0];
+    assign output1_real=y_s3_r[1];
+    assign output1_imag=y_s3_i[1];
+    assign output2_real=y_s3_r[2];
+    assign output2_imag=y_s3_i[2];
+    assign output3_real=y_s3_r[3];
+    assign output3_imag=y_s3_i[3];
+    assign output4_real=y_s3_r[4];
+    assign output4_imag=y_s3_i[4];
+    assign output5_real=y_s3_r[5];
+    assign output5_imag=y_s3_i[5];
+    assign output6_real=y_s3_r[6];
+    assign output6_imag=y_s3_i[6];
+    assign output7_real=y_s3_r[7];
+    assign output7_imag=y_s3_i[7];
 endmodule

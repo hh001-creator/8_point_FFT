@@ -19,10 +19,10 @@ module butterfly(
     assign y2_i = y2_i_reg;
     always @(posedge clk) begin
         if(start == 1) begin
-            y1_r_reg = x1_r + x2_r;
-            y1_i_reg = x1_i + x2_i;
-            y2_r_reg = (x1_r - x2_r) * w_r - (x1_i - x2_i) * w_i;
-            y2_i_reg = (x1_r - x2_r) * w_i + (x1_i - x2_i) * w_r;
+            y1_r_reg = ((w_r)*(x2_r))+(x1_r)-((w_i)*(x2_i));
+            y1_i_reg = x1_i+((w_r)*(x2_i))+((x2_r)*(w_i));
+            y2_r_reg = x1_r+((w_i)*(x2_i))-((w_r)*(x2_r));
+            y2_i_reg = x1_i-((w_r)*(x2_i))-((x2_r)*(w_i));
         end
         else begin
             y1_r_reg = 0;
