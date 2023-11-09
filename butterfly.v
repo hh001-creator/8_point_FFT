@@ -12,17 +12,17 @@ module butterfly(
     output signed [15:0] y2_r,
     output signed [15:0] y2_i
     );
-    reg signed [15:0] y1_r_reg, y1_i_reg, y2_r_reg, y2_i_reg;
+    reg signed [31:0] y1_r_reg, y1_i_reg, y2_r_reg, y2_i_reg;
     assign y1_r = y1_r_reg;
     assign y1_i = y1_i_reg;
     assign y2_r = y2_r_reg;
     assign y2_i = y2_i_reg;
     always @(posedge clk) begin
         if(start == 1) begin
-            y1_r_reg = ((w_r)*(x2_r))+(x1_r)-((w_i)*(x2_i));
-            y1_i_reg = x1_i+((w_r)*(x2_i))+((x2_r)*(w_i));
-            y2_r_reg = x1_r+((w_i)*(x2_i))-((w_r)*(x2_r));
-            y2_i_reg = x1_i-((w_r)*(x2_i))-((x2_r)*(w_i));
+            y1_r_reg = x1_r + ((x2_r * w_r) >> 8) - ((x2_i * w_i) >> 8);
+            y1_i_reg = x1_i + ((w_r * x2_i) >> 8) + ((x2_r)*(w_i) >> 8);
+            y2_r_reg = x1_r + ((w_i)*(x2_i) >> 8) - ((w_r)*(x2_r) >> 8);
+            y2_i_reg = x1_i - ((w_r)*(x2_i) >> 8) - ((x2_r)*(w_i) >> 8);
         end
         else begin
             y1_r_reg = 0;

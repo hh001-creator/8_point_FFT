@@ -1,0 +1,106 @@
+$date
+	Thu Nov  9 21:11:25 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module test $end
+$scope module butterfly_inst $end
+$var wire 1 ! clk $end
+$var wire 1 " start $end
+$var wire 16 # w_i [15:0] $end
+$var wire 16 $ w_r [15:0] $end
+$var wire 16 % x1_i [15:0] $end
+$var wire 16 & x1_r [15:0] $end
+$var wire 16 ' x2_i [15:0] $end
+$var wire 16 ( x2_r [15:0] $end
+$var wire 16 ) y2_r [15:0] $end
+$var wire 16 * y2_i [15:0] $end
+$var wire 16 + y1_r [15:0] $end
+$var wire 16 , y1_i [15:0] $end
+$var reg 32 - y1_i_reg [31:0] $end
+$var reg 32 . y1_r_reg [31:0] $end
+$var reg 32 / y2_i_reg [31:0] $end
+$var reg 32 0 y2_r_reg [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx 0
+bx /
+bx .
+bx -
+bx ,
+bx +
+bx *
+bx )
+b1000000000 (
+b0 '
+b1111110000000000 &
+b0 %
+b10110101 $
+b1111111101001011 #
+0"
+0!
+$end
+#5000
+b0 *
+b0 )
+b0 ,
+b0 +
+b0 /
+b0 0
+b0 -
+b0 .
+1!
+#10000
+0!
+1"
+#15000
+b101101010 *
+b1111101010010110 )
+b1111111010010110 ,
+b1111110101101010 +
+b11111111000000000000000101101010 /
+b11111111111111111111101010010110 0
+b111111111111111010010110 -
+b11111111111111111111110101101010 .
+1!
+#20000
+0!
+#25000
+1!
+#30000
+0!
+#35000
+1!
+#40000
+0!
+#45000
+1!
+#50000
+0!
+#55000
+1!
+#60000
+0!
+#65000
+1!
+#70000
+0!
+#75000
+1!
+#80000
+0!
+#85000
+1!
+#90000
+0!
+#95000
+1!
+#100000
+0!
