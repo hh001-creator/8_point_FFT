@@ -42,8 +42,8 @@ module fft(
     reg signed [15:0] input_imag[7:0];
     reg signed [15:0] output_real[7:0];
     reg signed [15:0] output_imag[7:0];
-    reg [15:0] w_r[3:0];
-    reg [15:0] w_i[3:0];
+    reg signed [15:0] w_r[3:0];
+    reg signed [15:0] w_i[3:0];
     always @(posedge clk) begin
         if(rst == 0) begin
             for(integer i = 0;i < 8;i = i + 1) begin
@@ -52,14 +52,14 @@ module fft(
                 output_real[i] <= 0;
                 output_imag[i] <= 0;
             end
-            w_r[0] = 0000000100000000;
-            w_i[0] = 0000000000000000;
-            w_r[1] = 0000000010110101;
-            w_i[1] = 1111111101001011;
-            w_r[2] = 0000000000000000;
-            w_i[2] = 1111111100000000;
-            w_r[3] = 1111111101001011;
-            w_i[3] = 1111111101001011;
+            w_r[0] = 16'b0000000100000000;
+            w_i[0] = 16'b0000000000000000;
+            w_r[1] = 16'b0000000010110101;
+            w_i[1] = 16'b1111111101001011;
+            w_r[2] = 16'b0000000000000000;
+            w_i[2] = 16'b1111111100000000;
+            w_r[3] = 16'b1111111101001011;
+            w_i[3] = 16'b1111111101001011;
         end
         else begin
             if(write == 1) begin
@@ -112,8 +112,8 @@ module fft(
     wire signed [15:0] y_s3_i[7:0];
 
     for(genvar i=0;i<4;i=i+1) begin
-        butterfly U(.x1_r(input_real[i]), .x1_i(input_imag[i]), .x2_r(input_real[i + 4]), .x2_i(input_imag[i + 4]),
-            .w_r(w_r[i]), .w_i(w_i[1]), .clk(clk), .start(start), .y1_r(y_s3_r[i]), .y1_i(y_s3_i[i]), .y2_r(y_s3_r[i + 4]), .y2_i(y_s3_i[i + 4]));
+        butterfly U(.x1_r(y_s2_r[i]), .x1_i(y_s2_i[i]), .x2_r(y_s2_r[i + 4]), .x2_i(y_s2_i[i + 4]),
+            .w_r(w_r[i]), .w_i(w_i[i]), .clk(clk), .start(start), .y1_r(y_s3_r[i]), .y1_i(y_s3_i[i]), .y2_r(y_s3_r[i + 4]), .y2_i(y_s3_i[i + 4]));
     end
     assign output0_real=y_s3_r[0];
     assign output0_imag=y_s3_i[0];
