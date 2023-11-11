@@ -1,0 +1,22 @@
+# read design
+read_verilog ../fft.v
+hierarchy -check
+hierarchy -top fft
+#flatten
+# high level synthesis
+proc; opt; clean
+fsm; opt; clean
+memory; opt; clean
+# low level synthesis
+techmap; opt; clean
+# map to target architecture
+dfflibmap -liberty stdcells_slow.lib
+abc -liberty stdcells_slow.lib
+# split larger signals
+splitnets -ports; opt; clean
+# write synthesis output
+write_verilog synth.v
+write_spice synth.sp
+# print synthesis reports
+stat
+stat -liberty stdcells_slow.lib

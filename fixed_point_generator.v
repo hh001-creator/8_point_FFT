@@ -6,7 +6,7 @@ module test();
     real float;
     reg [15:0] fix_num;
     initial begin
-        x1_r = 1 * 256;
+        x1_r = -4 * 256;
         //x = $urandom_range(-126, 127);
         dec = x1_r[15:8];
         float = x1_r[7:0] / (256.0);

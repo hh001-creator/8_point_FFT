@@ -1,0 +1,3 @@
+source sta_typical.bash 
+report_checks
+report_power

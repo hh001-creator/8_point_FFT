@@ -1,4 +1,4 @@
-read_liberty stdcells.lib
+read_liberty stdcells_typical.lib
 read_verilog synth.v
 link_design fft
 create_clock -name CLK -period 100 {clk}

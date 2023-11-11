@@ -1,0 +1,5 @@
+source sta_slow.bash 
+report_checks
+report_power
+source sta_slow.bash 
+report_checks

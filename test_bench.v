@@ -18,18 +18,19 @@ module test();
     wire signed [15:0] output5_real, output5_imag;
     wire signed [15:0] output6_real, output6_imag;
     wire signed [15:0] output7_real, output7_imag;
-
+    wire ready;
     fft U0(.clk(clk), .rst(rst), .write(write), .start(start), .input0_real(input0_real), .input0_imag(input0_imag), .input1_real(input1_real), .input1_imag(input1_imag),
     .input2_real(input2_real), .input2_imag(input2_imag), .input3_real(input3_real), .input3_imag(input3_imag), .input4_real(input4_real), .input4_imag(input4_imag),
     .input5_real(input5_real), .input5_imag(input5_imag), .input6_real(input6_real), .input6_imag(input6_imag), .input7_real(input7_real), .input7_imag(input7_imag),
     .output0_real(output0_real), .output0_imag(output0_imag), .output1_real(output1_real), .output1_imag(output1_imag), .output2_real(output2_real), .output2_imag(output2_imag),
     .output3_real(output3_real), .output3_imag(output3_imag), .output4_real(output4_real), .output4_imag(output4_imag), .output5_real(output5_real), .output5_imag(output5_imag),
-    .output6_real(output6_real), .output6_imag(output6_imag), .output7_real(output7_real), .output7_imag(output7_imag));
+    .output6_real(output6_real), .output6_imag(output6_imag), .output7_real(output7_real), .output7_imag(output7_imag), .ready(ready));
+    
     initial begin
         clk = 0;
-        #10 rst = 0;
+        rst = 0;
         write = 0;
-        #10 start = 0;
+        start = 0;
         input0_real = 16'b0000000000000000;
         input1_real = 16'b0000000100000000;
         input2_real = 16'b0000001000000000;
@@ -47,16 +48,15 @@ module test();
         input6_imag = 16'b0000000000000000;
         input7_imag = 16'b0000000000000000;
         #10 rst = 1;
-        #10 write = 1;
-        #10 start = 1;
+        write = 1;
+        start = 1;
         #10 write = 0;
     end
     always #5 clk = ~clk;
-
     initial begin
         $dumpfile("fft.vcd");
         $dumpvars(0, test);
-        #200 $finish;
+        #300 $finish;
     end
     initial begin
         $display("X[0]_real = %b, X[0]_imag = %b", output0_real, output0_imag);

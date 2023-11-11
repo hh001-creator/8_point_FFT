@@ -1,4 +1,5 @@
 `include "butterfly.v"
+`timescale 1ns/1ps
 module fft(
     input clk,
     input rst,
@@ -35,7 +36,8 @@ module fft(
     output signed [15:0] output6_real,
     output signed [15:0] output6_imag,
     output signed [15:0] output7_real,
-    output signed [15:0] output7_imag
+    output signed [15:0] output7_imag,
+    output reg ready
 );
     reg signed [15:0] input_real[7:0];
     reg signed [15:0] input_imag[7:0];
@@ -43,14 +45,16 @@ module fft(
     reg signed [15:0] output_imag[7:0];
     reg signed [15:0] w_r[3:0];
     reg signed [15:0] w_i[3:0];
-    integer r;
+    integer k, l;
     always @(posedge clk) begin
         if(rst == 0) begin
-            for(r = 0;r < 8;r = r + 1) begin
-                input_real[r] <= 0;
-                input_imag[r] <= 0;
-                output_real[r] <= 0;
-                output_imag[r] <= 0;
+            l = 0;
+            ready = 0;
+            for(k = 0;k < 8;k = k + 1) begin
+                input_real[k] <= 0;
+                input_imag[k] <= 0;
+                output_real[k] <= 0;
+                output_imag[k] <= 0;
             end
             w_r[0] = 16'b0000000100000000;
             w_i[0] = 16'b0000000000000000;
@@ -81,11 +85,16 @@ module fft(
                 input_imag[7] <= input7_imag;
             end
         end
+        l = l + 1;
+        if(l == 5) begin
+            ready = 1;
+            l = 0;
+        end
     end
     //stage 1
+    genvar i;
     wire signed [15:0] y_s1_r[7:0];
     wire signed [15:0] y_s1_i[7:0];
-    genvar i;
     for(i = 0;i < 8;i = i + 2) begin
         
             butterfly U(.x1_r(input_real[i]), .x1_i(input_imag[i]), .x2_r(input_real[i + 1]), .x2_i(input_imag[i + 1]),
@@ -98,14 +107,11 @@ module fft(
     for(i=0;i < 4;i = i+1) begin
         if(i % 2 == 0)begin
             butterfly U(.x1_r(y_s1_r[2*i]), .x1_i(y_s1_i[2*i]), .x2_r(y_s1_r[2*(i + 1)]), .x2_i(y_s1_i[2*(i + 1)]),
-            .w_r(w_r[0]), .w_i(w_i[0]), .start(start), .y1_r(y_s2_r[2*i]), .y1_i(y_s2_i[2*i]), .y2_r(y_s2_r[2*(i + 1)]), .y2_i(y_s2_i[2*(i + 1)]));
-
+            .w_r(w_r[0]), .w_i(w_i[0]), .clk(clk), .start(start), .y1_r(y_s2_r[2*i]), .y1_i(y_s2_i[2*i]), .y2_r(y_s2_r[2*(i + 1)]), .y2_i(y_s2_i[2*(i + 1)]));
         end
         else begin
             butterfly U(.x1_r(y_s1_r[2*i-1]), .x1_i(y_s1_i[2*i-1]), .x2_r(y_s1_r[2*(i)+ 1]), .x2_i(y_s1_i[2*(i) + 1]),
             .w_r(w_r[2]), .w_i(w_i[2]), .clk(clk), .start(start), .y1_r(y_s2_r[2*i-1]), .y1_i(y_s2_i[2*i-1]), .y2_r(y_s2_r[2*(i) + 1]), .y2_i(y_s2_i[2*(i) + 1]));
-
-
         end
     end
     //stage 3
