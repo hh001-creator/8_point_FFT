@@ -1,0 +1,34 @@
+source sta.bash 
+report_power
+report_checks
+source sta.bash 
+report_power
+report_checks
+source sta.bash 
+report_checks
+report_checks
+report_power
+source sta.bash 
+report_checks
+report_power
+source sta.bash 
+report_checks
+source sta.bash 
+report_checks
+source sta.bash 
+report_checks
+source sta.bash 
+report_checks
+source sta.bash 
+report_checks
+source sta.bash 
+report_checks
+source sta.bash 
+report_checks
+report_power
+source sta.bash 
+report_power
+report_checks
+source sta.bash 
+report_checks
+report_power
