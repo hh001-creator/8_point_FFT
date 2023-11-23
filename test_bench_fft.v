@@ -56,16 +56,6 @@ module test();
     initial begin
         $dumpfile("fft.vcd");
         $dumpvars(0, test);
-        #300 $finish;
-    end
-    initial begin
-        $display("X[0]_real = %b, X[0]_imag = %b", output0_real, output0_imag);
-        $display("X[1]_real = %b, X[1]_imag = %b", output1_real, output1_imag);
-        $display("X[2]_real = %b, X[2]_imag = %b", output2_real, output2_imag);
-        $display("X[3]_real = %b, X[3]_imag = %b", output3_real, output3_imag);
-        $display("X[4]_real = %b, X[4]_imag = %b", output4_real, output4_imag);
-        $display("X[5]_real = %b, X[5]_imag = %b", output5_real, output5_imag);
-        $display("X[6]_real = %b, X[6]_imag = %b", output6_real, output6_imag);
-        $display("X[7]_real = %b, X[7]_imag = %b", output7_real, output7_imag);
+        #200 $finish;
     end
 endmodule
