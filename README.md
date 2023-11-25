@@ -50,7 +50,7 @@ The STA report is shown below for slow when a clk of 100ns is given.
 
 ![1700721250908](image/README/1700721250908.png)
 
-**The slack is 91.86 $\Rightarrow$ The min clock speed at fast is 8.14ns.**
+**The slack is 91.86 $\Rightarrow$ The min clock speed at slow is 8.14ns.**
 
 **The circuit to work properly at all conditions then the min clock speed should be 8.14ns.**
 
